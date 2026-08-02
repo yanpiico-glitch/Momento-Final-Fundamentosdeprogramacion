@@ -22,6 +22,12 @@ python menu_restaurante.py
 
 
 
+
+
+
+
+
+
 def calcular_precio_final(producto, categoria_objetivo, precio_umbral):
     #  Sacamos la categoría y el precio del producto usando sus posiciones
     categoria_producto = producto[1].lower()
