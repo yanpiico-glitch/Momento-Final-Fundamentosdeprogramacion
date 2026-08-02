@@ -22,34 +22,57 @@ python menu_restaurante.py
 
 
 
-print("Bienvenido al sistema de gestión del menú del restaurante.   ")
+def calcular_precio_final(producto, categoria_objetivo, precio_umbral):
+    #  Sacamos la categoría y el precio del producto usando sus posiciones
+    categoria_producto = producto[1].lower()
+    precio_base = producto[2]
 
-def calcular_precio_final( producto,categoria, precio_umbral):
-   
-try:
-menu = [["Hamburguesa","Comida", 5000.0],
-["Pizza","Comida", 8000.0], 
-["Ensalada","Comida", 4000.0],
-["Coca-Cola","Bebida", 2000.0], 
-["Agua","Bebida", 1000.0], 
-["Cerveza","Bebida", 3000.0]]
-
-
-
-Opcion_elegida= input("Ingrese la opcion que desea seleccionar: ").strip()
-
-while True:
-    try:
-        precio_umbral = float(input("Ingrese el precio umbral para aplicar la promoción $: "))
-        if precio_umbral > 0:
-            break
-        print("Por favor, ingrese un número positivo.")
-    except ValueError:
-        print("Entrada inválida. Por favor, ingrese un número válido.")
-
-for producto in menu:  
+    #  Si coincide la categoría Y además supera el precio mínimo, aplicamos descuento
+    if categoria_producto == categoria_objetivo.lower() and precio_base > precio_umbral:
+        descuento = precio_base * 0.15
+        return precio_base - descuento
     
-    if producto[2] > precio_umbral:
-        producto[2] *= 0.15  # Aplicar un descuento del 15%
-        print(f"Se ha aplicado un descuento del 15% a {producto[0]}. Nuevo precio: ${producto[2]:.2f}")
+    
+    return precio_base
+
+
+def main():
+    print("=== Sistema de Gestión de Promociones ===")
+
+   
+    menu_restaurante = [
+        ["Hamburguesa Especial", "Comida", 25000.0],
+        ["Papas Fritas", "Acompañamiento", 8000.0],
+        ["Pizza Familiar", "Comida", 45000.0],
+        ["Jugo Natural", "Bebida", 6500.0],
+        ["Gaseosa 1.5L", "Bebida", 9000.0],
+        ["Tres Leches", "Postre", 12000.0]
+    ]
+
+    
+    categoria_objetivo = input("Ingrese la categoría para la promoción: ")
+    precio_umbral = float(input("Ingrese el umbral de precio mínimo ($): "))
+
+    print("\n=== REPORTE DEL MENÚ ===")
+
+   
+    for producto in menu_restaurante:
+        nombre = producto[0]
+        precio_base = producto[2]
         
+       
+        precio_final = calcular_precio_final(producto, categoria_objetivo, precio_umbral)
+        
+       
+        print(f"Producto: {nombre}")
+        print(f"  -> Precio Base:  ${precio_base}")
+        print(f"  -> Precio Final: ${precio_final}")
+        
+        if precio_final < precio_base:
+            print("  [¡Promoción Aplicada del 15%!]")
+        print("-" * 30)
+
+
+
+main()
+
